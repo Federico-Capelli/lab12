@@ -1,13 +1,16 @@
 package it.unibo.es1;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * Implementation of the Logics interface.
  */
 public class LogicsImpl implements Logics {
 
-    private static final String ERROR_MESSAGE = "Unimplemented method";
+    private final List<Integer> listButtons = new ArrayList<>();
+    private final int size;
 
     /**
      * Constructor.
@@ -15,7 +18,10 @@ public class LogicsImpl implements Logics {
      * @param size the size of the logics
      */
     public LogicsImpl(final int size) {
-        throw new UnsupportedOperationException(ERROR_MESSAGE);
+        this.size = size;
+        for (int i = 0; i < size; i++) {
+            listButtons.add(0);
+        }
     }
 
     /**
@@ -23,7 +29,7 @@ public class LogicsImpl implements Logics {
      */
     @Override
     public int size() {
-        throw new UnsupportedOperationException(ERROR_MESSAGE);
+        return this.size;
     }
 
     /**
@@ -31,7 +37,7 @@ public class LogicsImpl implements Logics {
      */
     @Override
     public List<Integer> values() {
-        throw new UnsupportedOperationException(ERROR_MESSAGE);
+        return new ArrayList<>(listButtons);
     }
 
     /**
@@ -39,7 +45,11 @@ public class LogicsImpl implements Logics {
      */
     @Override
     public List<Boolean> enabledStates() {
-        throw new UnsupportedOperationException(ERROR_MESSAGE);
+        final List<Boolean> enableList = new ArrayList<>(this.size);
+        for (final int elem : listButtons) {
+            enableList.add(elem != this.size);
+        }
+        return enableList;
     }
 
     /**
@@ -47,7 +57,9 @@ public class LogicsImpl implements Logics {
      */
     @Override
     public int hit(final int elem) {
-        throw new UnsupportedOperationException(ERROR_MESSAGE);
+        final int nextElem = listButtons.get(elem) + 1;
+        listButtons.set(elem, nextElem);
+        return nextElem;
     }
 
     /**
@@ -55,7 +67,7 @@ public class LogicsImpl implements Logics {
      */
     @Override
     public String result() {
-        throw new UnsupportedOperationException(ERROR_MESSAGE);
+        return listButtons.stream().map(String::valueOf).collect(Collectors.joining("|", "<<", ">>"));
     }
 
     /**
@@ -63,6 +75,14 @@ public class LogicsImpl implements Logics {
      */
     @Override
     public boolean toQuit() {
-        throw new UnsupportedOperationException(ERROR_MESSAGE);
+        boolean quit = false;
+        for (int i = 0; i < size - 1; i++) {
+            if (listButtons.get(i).equals(listButtons.get(i + 1)) && listButtons.get(i) > 1) {
+                quit = true;
+            } else {
+                quit = false;
+            }
+        }
+        return quit;
     }
 }
