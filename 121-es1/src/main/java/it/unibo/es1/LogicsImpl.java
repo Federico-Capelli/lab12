@@ -77,10 +77,10 @@ public class LogicsImpl implements Logics {
     public boolean toQuit() {
         boolean quit = false;
         for (int i = 0; i < size - 1; i++) {
-            if (listButtons.get(i).equals(listButtons.get(i + 1)) && listButtons.get(i) > 1) {
+            if (listButtons.get(i).equals(listButtons.get(i + 1)) && listButtons.get(i) >= 1) {
                 quit = true;
             } else {
-                quit = false;
+                return false;
             }
         }
         return quit;
