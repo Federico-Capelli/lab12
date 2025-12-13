@@ -41,7 +41,6 @@ public final class GUI extends JFrame {
                     } else {
                         button.setText(" ");
                     }
-                    //button.setText(buttonPosition.toString());
                     if (logics.isAnyColumnFull() || logics.isAnyRowFull()) {
                         // System.exit(1); // Too brutal!
                         dispose();
